@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres_bi
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: retail_db
+      POSTGRES_USER: retail_user
+      POSTGRES_PASSWORD: retail_pass_123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase_bi
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
